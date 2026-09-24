@@ -4,7 +4,13 @@ This is a small check that decides whether a page is allowed to go live.
 
 A page has an address. A report says which addresses were named by answer engines. The page goes live only when three things agree: the address, a hidden label on the page, and the report.
 
-The page lives in a file for this demo. The report is a saved sample, so you do not need an account to try it. Peec is the product that would supply a live report. Supabase is the database that can store the pages.
+The page lives in a file for this demo. The report is a saved sample, so you do not need an account to try it. Supabase is the database that can store the pages.
+
+## Why Peec is here
+
+The page can tell you its address and its text. It cannot tell you whether an answer engine named that address. That fact belongs to Peec, which reports how often each address was found and how often it was named.
+
+Peec is in this demo so the check has a second owner. The page does not grade itself. It goes live only when its address is in Peec’s report and the score is actually there. A saved sample stands in for a live Peec account, so the check can be read without a key.
 
 ## What the words mean
 

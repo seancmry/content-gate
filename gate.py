@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Decide whether one page can go live.
 
-The saved sample needs no password. A live run calls Peec's report of page addresses.
+Peec is here because the page cannot know whether it was named. The saved sample needs no password. A live run calls Peec's report of page addresses.
 """
 
 from __future__ import annotations

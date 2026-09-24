@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the publish gate against a small catalog and write a lab page.
 
-Does not call Peec. Does not change content/page.json.
+Peec’s report is the second source: it says which addresses were named. This script uses the saved sample. It does not call Peec and does not change content/page.json.
 """
 
 from __future__ import annotations

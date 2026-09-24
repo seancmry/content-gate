@@ -9,7 +9,7 @@ The check reads a page, finds that page’s address in a report, and marks the p
 | **Page name** | The short name of the article. |
 | **Address** | The public link. This is how the page and the report are matched. |
 | **Language** | German or English. |
-| **Peec key** | The password for a live report. Only needed for a real call. Stays in `.env`. |
+| **Peec key** | The password for a live report. Only needed for a real call. Stays in `.env`. Peec is the system that knows whether an address was named. The page does not know that on its own. |
 | **Database address** | Where the free Supabase project lives. |
 | **Database password** | Lets a script write rows. Never put this in the repo or in chat. |
 | **The check** | Holds the page back when the page and the report do not agree. |
