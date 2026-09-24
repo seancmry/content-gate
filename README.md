@@ -4,6 +4,8 @@ This is a small check that decides whether a page is allowed to go live.
 
 A page has an address. A report says which addresses were named by answer engines. The page goes live only when three things agree: the address, a hidden label on the page, and the report.
 
+![A page goes live only when the address, the hidden label, and the report agree](docs/images/overview.png)
+
 The page lives in a file for this demo. The report is a saved sample, so you do not need an account to try it. Supabase is the database that can store the pages.
 
 ## Why Peec is here

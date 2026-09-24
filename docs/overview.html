@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Overview</title>
+  <style>
+    @font-face { font-family: Geist; src: url("fonts/Geist-Regular.woff2") format("woff2"); font-weight: 400; }
+    @font-face { font-family: Geist; src: url("fonts/Geist-SemiBold.woff2") format("woff2"); font-weight: 600; }
+    body { font-family: Geist, sans-serif; margin: 24px; background: #fff; color: #111; }
+    h1 { font-size: 18px; font-weight: 600; margin: 0 0 16px; }
+    .row { display: flex; align-items: stretch; gap: 12px; }
+    .card { flex: 1; background: #f5f8ff; border-top: 4px solid #0052ff; padding: 14px 16px; }
+    .card b { display: block; color: #0052ff; font-size: 13px; margin-bottom: 6px; }
+    .card p { margin: 0; font-size: 15px; line-height: 1.35; }
+    .plus, .arrow { align-self: center; color: #0052ff; font-weight: 600; font-size: 22px; }
+    .go { flex: 0.9; background: #e9f8ef; border-top: 4px solid #067a3a; }
+    .go b { color: #067a3a; }
+  </style>
+</head>
+<body>
+  <h1>A page goes live only when these three agree</h1>
+  <div class="row">
+    <div class="card"><b>Address</b><p>The public link on the page.</p></div>
+    <div class="plus">+</div>
+    <div class="card"><b>Hidden label</b><p>The same link, repeated on the page.</p></div>
+    <div class="plus">+</div>
+    <div class="card"><b>Report</b><p>Peec has named that link, and the score is there.</p></div>
+    <div class="arrow">→</div>
+    <div class="card go"><b>Can go live</b><p>The decision is written back onto the page.</p></div>
+  </div>
+</body>
+</html>
