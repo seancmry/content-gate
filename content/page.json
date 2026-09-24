@@ -1,0 +1,29 @@
+{
+  "content_id": "cnt_file_taxes_berlin",
+  "locales": {
+    "de": {
+      "url": "https://example.com/de/steuern-berlin",
+      "body": "So reichst du die Steuererkl\u00e4rung in Berlin ein.",
+      "json_ld": {
+        "@type": "Article",
+        "headline": "Steuererkl\u00e4rung in Berlin",
+        "url": "https://example.com/de/steuern-berlin"
+      },
+      "status": "draft",
+      "last_peec": null,
+      "block_reason": null
+    },
+    "en": {
+      "url": "https://example.com/en/taxes-berlin",
+      "body": "How to file a tax return in Berlin.",
+      "json_ld": {
+        "@type": "Article",
+        "headline": "Filing taxes in Berlin",
+        "url": "https://example.com/en/taxes-berlin"
+      },
+      "status": "draft",
+      "last_peec": null,
+      "block_reason": null
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "url": "https://example.com/de/steuern-berlin",
+      "title": "Steuererklärung in Berlin",
+      "classification": "editorial",
+      "citation_count": 4,
+      "retrieval_count": 8,
+      "citation_rate": 0.5,
+      "mentioned_brands": [{ "id": "br_example" }]
+    }
+  ]
+}
