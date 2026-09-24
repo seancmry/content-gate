@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Content gate lab</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 32px auto; max-width: 980px; color: #1c1c1c; background: #f7f4ee; }
+    h1 { font-weight: normal; font-size: 28px; margin-bottom: 4px; }
+    h2 { font-weight: normal; font-size: 20px; margin-top: 36px; }
+    p { line-height: 1.45; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e4dfd4; font-size: 14px; }
+    th { background: #14365d; color: white; font-family: sans-serif; font-weight: 600; }
+    .published { color: #1b7a3a; font-weight: 700; font-family: sans-serif; }
+    .blocked { color: #9b2c2c; font-weight: 700; font-family: sans-serif; }
+    .tiles { display: flex; gap: 16px; margin: 16px 0 8px; }
+    .tile { background: white; padding: 16px 20px; min-width: 140px; border-top: 4px solid #14365d; }
+    .tile b { display: block; font-family: sans-serif; font-size: 28px; }
+  </style>
+</head>
+<body>
+  <h1>Content gate lab</h1>
+  <p>Ten checks against the saved Peec URL report. Eight rows live in the Supabase <code>pages</code> table. Two broken copies exist only here.</p>
+  <div class="tiles">
+    <div class="tile"><b>5</b>published</div>
+    <div class="tile"><b>5</b>blocked</div>
+  </div>
+  What the gate did</h2>
+  <table>
+    <thead><tr><th>Locale</th><th>Path</th><th>Status</th><th>Reason</th></tr></thead>
+    <tbody>
+      <tr><td>de</td><td>/de/steuern-berlin</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/taxes-berlin</td><td class='blocked'>blocked</td><td>url is absent from the Peec report</td></tr><tr><td>de</td><td>/de/elster-frist</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/filing-deadline</td><td class='blocked'>blocked</td><td>citation_rate is missing</td></tr><tr><td>de</td><td>/de/homeoffice</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/home-office</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>de</td><td>/de/kirchensteuer</td><td class='blocked'>blocked</td><td>url is absent from the Peec report</td></tr><tr><td>en</td><td>/en/moving-costs</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>de</td><td>/de/werbungskosten</td><td class='blocked'>blocked</td><td>body is empty</td></tr><tr><td>de</td><td>/de/umzugskosten</td><td class='blocked'>blocked</td><td>json_ld.url does not match the page url</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "content-gate",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "keys": "node scripts/keys.mjs"
+  }
+}

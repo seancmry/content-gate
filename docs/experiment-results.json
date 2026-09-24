@@ -1,0 +1,112 @@
+[
+  {
+    "content_id": "cnt_file_taxes_berlin",
+    "locale": "de",
+    "url": "https://example.com/de/steuern-berlin",
+    "stored": true,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 0.5,
+    "retrieval_count": 8,
+    "citation_count": 4
+  },
+  {
+    "content_id": "cnt_file_taxes_berlin",
+    "locale": "en",
+    "url": "https://example.com/en/taxes-berlin",
+    "stored": true,
+    "status": "blocked",
+    "reason": "url is absent from the Peec report",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  },
+  {
+    "content_id": "cnt_elster_deadline",
+    "locale": "de",
+    "url": "https://example.com/de/elster-frist",
+    "stored": true,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 0.75,
+    "retrieval_count": 12,
+    "citation_count": 9
+  },
+  {
+    "content_id": "cnt_elster_deadline",
+    "locale": "en",
+    "url": "https://example.com/en/filing-deadline",
+    "stored": true,
+    "status": "blocked",
+    "reason": "citation_rate is missing",
+    "citation_rate": null,
+    "retrieval_count": 10,
+    "citation_count": 3
+  },
+  {
+    "content_id": "cnt_home_office",
+    "locale": "de",
+    "url": "https://example.com/de/homeoffice",
+    "stored": true,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 0.05,
+    "retrieval_count": 20,
+    "citation_count": 1
+  },
+  {
+    "content_id": "cnt_home_office",
+    "locale": "en",
+    "url": "https://example.com/en/home-office",
+    "stored": true,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 0.0,
+    "retrieval_count": 6,
+    "citation_count": 0
+  },
+  {
+    "content_id": "cnt_church_tax",
+    "locale": "de",
+    "url": "https://example.com/de/kirchensteuer",
+    "stored": true,
+    "status": "blocked",
+    "reason": "url is absent from the Peec report",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  },
+  {
+    "content_id": "cnt_moving_costs",
+    "locale": "en",
+    "url": "https://example.com/en/moving-costs",
+    "stored": true,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 0.4,
+    "retrieval_count": 5,
+    "citation_count": 2
+  },
+  {
+    "content_id": "cnt_werbungskosten",
+    "locale": "de",
+    "url": "https://example.com/de/werbungskosten",
+    "stored": false,
+    "status": "blocked",
+    "reason": "body is empty",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  },
+  {
+    "content_id": "cnt_moving_costs",
+    "locale": "de",
+    "url": "https://example.com/de/umzugskosten",
+    "stored": false,
+    "status": "blocked",
+    "reason": "json_ld.url does not match the page url",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  }
+]

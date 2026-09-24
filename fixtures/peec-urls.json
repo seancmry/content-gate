@@ -8,6 +8,51 @@
       "retrieval_count": 8,
       "citation_rate": 0.5,
       "mentioned_brands": [{ "id": "br_example" }]
+    },
+    {
+      "url": "https://example.com/de/elster-frist",
+      "title": "Frist für die Steuererklärung",
+      "classification": "editorial",
+      "citation_count": 9,
+      "retrieval_count": 12,
+      "citation_rate": 0.75,
+      "mentioned_brands": [{ "id": "br_example" }, { "id": "br_elster" }]
+    },
+    {
+      "url": "https://example.com/en/filing-deadline",
+      "title": "Tax filing deadline",
+      "classification": "editorial",
+      "citation_count": 3,
+      "retrieval_count": 10,
+      "citation_rate": null,
+      "mentioned_brands": [{ "id": "br_example" }]
+    },
+    {
+      "url": "https://example.com/de/homeoffice",
+      "title": "Homeoffice in der Steuererklärung",
+      "classification": "editorial",
+      "citation_count": 1,
+      "retrieval_count": 20,
+      "citation_rate": 0.05,
+      "mentioned_brands": [{ "id": "br_example" }]
+    },
+    {
+      "url": "https://example.com/en/home-office",
+      "title": "Home office deduction",
+      "classification": "editorial",
+      "citation_count": 0,
+      "retrieval_count": 6,
+      "citation_rate": 0.0,
+      "mentioned_brands": []
+    },
+    {
+      "url": "https://example.com/en/moving-costs",
+      "title": "Moving costs",
+      "classification": "editorial",
+      "citation_count": 2,
+      "retrieval_count": 5,
+      "citation_rate": 0.4,
+      "mentioned_brands": [{ "id": "br_example" }]
     }
   ]
 }

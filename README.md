@@ -38,10 +38,30 @@ python gate.py --locale de --live
 
 A company-scoped key also needs `PEEC_PROJECT_ID` (`or_…`). A project-scoped key does not. Docs: https://docs.peec.ai/api-reference/reports/get-urls-report
 
-## Later: Supabase
+## Save the Supabase URL and key
 
-Not part of the first commit. Look at it after the fixture run works.
+From this folder, after the project exists:
 
-Supabase is a hosted database with an API. A free project is enough. The exercise is to replace `content/page.json` with a table: the page, the locale, and `last_peec` live there instead of in a file. The gate still compares on `url`.
+```bash
+npm run keys
+```
 
-It does not replace Peec. It stores the result. The citation numbers still come from the fixture, or from a Peec key if one exists later.
+It asks for the project URL, then the secret key. The key is masked. Both lines are written into `.env`. Do not paste the secret into chat.
+
+## Lab
+
+`python experiments.py` checks ten URLs against `fixtures/peec-urls.json`. It does not call Peec and does not change `content/page.json`.
+
+Five publish. Five block. A low citation rate still publishes. A missing rate, an absent URL, an empty body, or a schema mismatch blocks.
+
+![Catalog](docs/images/catalog.png)
+
+![Results](docs/images/results.png)
+
+Notes with the same shots: [docs/content-gate-lab.pdf](docs/content-gate-lab.pdf).
+
+## Supabase
+
+The eight real rows live in a `pages` table on a free project in Frankfurt. The gate still compares on `url`. Supabase stores the page. It does not produce the citation numbers. Those still come from the fixture, or from a Peec key if one exists later.
+
+`npm run keys` writes `SUPABASE_URL` and `SUPABASE_SECRET_KEY` into `.env`. The secret is not committed.
