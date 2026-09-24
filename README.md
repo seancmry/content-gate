@@ -67,3 +67,5 @@ The same pictures, with a short note, are in [docs/content-gate-lab.pdf](docs/co
 ## The database
 
 Eight of the pages are stored in a `pages` table on a free Supabase project in Frankfurt. The database keeps the pages. It does not create the report. The numbers still come from the saved sample, or from a Peec key if one exists later.
+
+The check has been written back onto those eight rows. Open the table and the page itself says what happened. `published` means it can go live. `blocked` means it stays held, and `block_reason` says why. `last_peec` holds how often the page was found and named. Five of the eight can go live. Three stay held.
