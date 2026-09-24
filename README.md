@@ -78,6 +78,6 @@ Eight of the pages are stored in a `pages` table on a free Supabase project in F
 
 The check has been written back onto those eight rows. Open the table and the page itself says what happened. `published` means it can go live. `blocked` means it stays held, and `block_reason` says why. `last_peec` holds how often the page was found and named. Five of the eight can go live. Three stay held.
 
-Two extra tables are there so the table view is easy to read. `articles` is the eight stored pages in plain columns. `checks` is all fourteen results, including the demo-only ones. `pages` and `report_rows` are the same facts in the shape the function uses.
+Two extra tables are there so the table view is easy to read. `articles` has the eight stored pages, plus eight dummy rows. `checks` has the fourteen results, plus the same eight dummy rows. A dummy row has `saved_where` set to `Dummy`. `pages` and `report_rows` are the same facts in the shape the function uses. The function does not read the dummy rows.
 
 The same rule also lives in the database as a function, `apply_check`. You give it a page name and a language. It looks that page up, finds the address in `report_rows` (the saved sample), and writes the decision back onto the page. The SQL is in `supabase/apply_check.sql`. In the dashboard it appears under **Database → Functions**.
