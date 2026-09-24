@@ -74,6 +74,22 @@ PAGES = [
         "body": "Moving costs can be work-related expenses.",
         "json_ld": {"@type": "Article", "headline": "Moving costs", "url": "https://example.com/en/moving-costs"},
     },
+    {
+        "content_id": "cnt_commute",
+        "locale": "de",
+        "url": "https://example.com/de/pendlerpauschale",
+        "body": "Die Pendlerpauschale gilt pro Entfernungskilometer.",
+        "json_ld": {"@type": "Article", "headline": "Pendlerpauschale", "url": "https://example.com/de/pendlerpauschale"},
+        "note": "synthetic",
+    },
+    {
+        "content_id": "cnt_special_expenses",
+        "locale": "en",
+        "url": "https://example.com/en/special-expenses",
+        "body": "Special expenses are listed on the return.",
+        "json_ld": {"@type": "Article", "headline": "Special expenses", "url": "https://example.com/en/special-expenses"},
+        "note": "synthetic",
+    },
 ]
 
 # Not stored. They show the two checks that happen before Peec is consulted.
@@ -94,6 +110,23 @@ BROKEN = [
         "json_ld": {"@type": "Article", "headline": "Umzugskosten", "url": "https://example.com/de/wrong-url"},
         "note": "synthetic",
     },
+    {
+        "content_id": "cnt_file_taxes_berlin",
+        "locale": "de",
+        "url": "https://example.com/de/steuern-berlin",
+        "body": "So reichst du die Steuererklärung in Berlin ein.",
+        "json_ld": {"@type": "Article", "headline": "Steuererklärung in Berlin", "url": "https://example.com/de/steuern-berlin"},
+        "note": "synthetic",
+        "peec_error": "Peec 503: report unavailable",
+    },
+    {
+        "content_id": "cnt_allowances",
+        "locale": "en",
+        "url": "https://example.com/en/allowances",
+        "body": "Allowances are claimed on the return.",
+        "json_ld": {},
+        "note": "synthetic",
+    },
 ]
 
 
@@ -102,7 +135,7 @@ def run_cases() -> list[dict]:
     results = []
     for page in PAGES + BROKEN:
         peec = row_for(page["url"], rows)
-        status, reason = decide(page, peec, None)
+        status, reason = decide(page, peec, page.get("peec_error"))
         shot = snapshot(peec)
         results.append(
             {
@@ -155,23 +188,23 @@ def write_html(results: list[dict]) -> None:
   <meta charset="utf-8">
   <title>Content gate lab</title>
   <style>
-    body {{ font-family: Georgia, serif; margin: 32px auto; max-width: 980px; color: #1c1c1c; background: #f7f4ee; }}
-    h1 {{ font-weight: normal; font-size: 28px; margin-bottom: 4px; }}
-    h2 {{ font-weight: normal; font-size: 20px; margin-top: 36px; }}
+    body {{ font-family: Georgia, serif; margin: 28px auto; max-width: 980px; color: #292524; background: #f6f1e8; }}
+    h1 {{ font-weight: normal; font-size: 28px; margin-bottom: 4px; color: #7c2d12; }}
+    h2 {{ font-weight: normal; font-size: 20px; margin-top: 28px; color: #9a3412; }}
     p {{ line-height: 1.45; }}
-    table {{ width: 100%; border-collapse: collapse; background: white; }}
-    th, td {{ text-align: left; padding: 8px 10px; border-bottom: 1px solid #e4dfd4; font-size: 14px; }}
-    th {{ background: #14365d; color: white; font-family: sans-serif; font-weight: 600; }}
-    .published {{ color: #1b7a3a; font-weight: 700; font-family: sans-serif; }}
-    .blocked {{ color: #9b2c2c; font-weight: 700; font-family: sans-serif; }}
+    table {{ width: 100%; border-collapse: collapse; background: #fffdf8; }}
+    th, td {{ text-align: left; padding: 7px 10px; border-bottom: 1px solid #eadfce; font-size: 14px; }}
+    th {{ background: #9a3412; color: #fff7ed; font-family: sans-serif; font-weight: 600; }}
+    .published {{ color: #0f766e; font-weight: 700; font-family: sans-serif; }}
+    .blocked {{ color: #9f1239; font-weight: 700; font-family: sans-serif; }}
     .tiles {{ display: flex; gap: 16px; margin: 16px 0 8px; }}
-    .tile {{ background: white; padding: 16px 20px; min-width: 140px; border-top: 4px solid #14365d; }}
+    .tile {{ background: #fffdf8; padding: 16px 20px; min-width: 140px; border-top: 4px solid #c2410c; }}
     .tile b {{ display: block; font-family: sans-serif; font-size: 28px; }}
   </style>
 </head>
 <body>
   <h1>Content gate lab</h1>
-  <p>Ten checks against the saved Peec URL report. Eight rows live in the Supabase <code>pages</code> table. Two broken copies exist only here.</p>
+  <p>{len(results)} checks against the saved Peec URL report. {sum(1 for item in results if item['stored'])} rows live in the Supabase <code>pages</code> table. The rest exist only here.</p>
   <div class="tiles">
     <div class="tile"><b>{published}</b>published</div>
     <div class="tile"><b>{blocked}</b>blocked</div>
@@ -183,7 +216,7 @@ def write_html(results: list[dict]) -> None:
       {''.join(catalog_rows)}
     </tbody>
   </table>
-  <h2 id="results">What the gate did</h2>
+  <h2 id="results">Results</h2>
   <table>
     <thead><tr><th>Locale</th><th>Path</th><th>Status</th><th>Reason</th></tr></thead>
     <tbody>
@@ -194,8 +227,9 @@ def write_html(results: list[dict]) -> None:
 </html>
 """
     OUT_HTML.write_text(html)
+    head = html.split("<body>")[0] + "<body>\n"
     catalog_html = html.split("<h2 id=\"results\">")[0] + "</body></html>\n"
-    results_html = html.split("<h2 id=\"catalog\">")[0] + html.split("<h2 id=\"results\">")[1]
+    results_html = head + "<h2 id=\"results\">" + html.split("<h2 id=\"results\">")[1]
     (DOCS / "catalog.html").write_text(catalog_html)
     (DOCS / "results.html").write_text(results_html)
 

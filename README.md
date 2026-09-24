@@ -50,9 +50,9 @@ It asks for the project URL, then the secret key. The key is masked. Both lines 
 
 ## Lab
 
-`python experiments.py` checks ten URLs against `fixtures/peec-urls.json`. It does not call Peec and does not change `content/page.json`.
+`python experiments.py` checks fourteen URLs against `fixtures/peec-urls.json`. It does not call Peec and does not change `content/page.json`.
 
-Five publish. Five block. A low citation rate still publishes. A missing rate, an absent URL, an empty body, or a schema mismatch blocks.
+Six publish. Eight block. A low citation rate still publishes. A missing rate, an absent URL, an empty body, a schema mismatch, or a Peec error blocks.
 
 ![Catalog](docs/images/catalog.png)
 

@@ -4,32 +4,32 @@
   <meta charset="utf-8">
   <title>Content gate lab</title>
   <style>
-    body { font-family: Georgia, serif; margin: 32px auto; max-width: 980px; color: #1c1c1c; background: #f7f4ee; }
-    h1 { font-weight: normal; font-size: 28px; margin-bottom: 4px; }
-    h2 { font-weight: normal; font-size: 20px; margin-top: 36px; }
+    body { font-family: Georgia, serif; margin: 28px auto; max-width: 980px; color: #292524; background: #f6f1e8; }
+    h1 { font-weight: normal; font-size: 28px; margin-bottom: 4px; color: #7c2d12; }
+    h2 { font-weight: normal; font-size: 20px; margin-top: 28px; color: #9a3412; }
     p { line-height: 1.45; }
-    table { width: 100%; border-collapse: collapse; background: white; }
-    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e4dfd4; font-size: 14px; }
-    th { background: #14365d; color: white; font-family: sans-serif; font-weight: 600; }
-    .published { color: #1b7a3a; font-weight: 700; font-family: sans-serif; }
-    .blocked { color: #9b2c2c; font-weight: 700; font-family: sans-serif; }
+    table { width: 100%; border-collapse: collapse; background: #fffdf8; }
+    th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid #eadfce; font-size: 14px; }
+    th { background: #9a3412; color: #fff7ed; font-family: sans-serif; font-weight: 600; }
+    .published { color: #0f766e; font-weight: 700; font-family: sans-serif; }
+    .blocked { color: #9f1239; font-weight: 700; font-family: sans-serif; }
     .tiles { display: flex; gap: 16px; margin: 16px 0 8px; }
-    .tile { background: white; padding: 16px 20px; min-width: 140px; border-top: 4px solid #14365d; }
+    .tile { background: #fffdf8; padding: 16px 20px; min-width: 140px; border-top: 4px solid #c2410c; }
     .tile b { display: block; font-family: sans-serif; font-size: 28px; }
   </style>
 </head>
 <body>
   <h1>Content gate lab</h1>
-  <p>Ten checks against the saved Peec URL report. Eight rows live in the Supabase <code>pages</code> table. Two broken copies exist only here.</p>
+  <p>14 checks against the saved Peec URL report. 8 rows live in the Supabase <code>pages</code> table. The rest exist only here.</p>
   <div class="tiles">
-    <div class="tile"><b>5</b>published</div>
-    <div class="tile"><b>5</b>blocked</div>
+    <div class="tile"><b>6</b>published</div>
+    <div class="tile"><b>8</b>blocked</div>
   </div>
   <h2 id="catalog">Catalog</h2>
   <table>
     <thead><tr><th>Page</th><th>Locale</th><th>URL</th><th>Where</th><th>Citation rate</th></tr></thead>
     <tbody>
-      <tr><td>cnt_file_taxes_berlin</td><td>de</td><td>https://example.com/de/steuern-berlin</td><td>table</td><td>0.5</td></tr><tr><td>cnt_file_taxes_berlin</td><td>en</td><td>https://example.com/en/taxes-berlin</td><td>table</td><td>—</td></tr><tr><td>cnt_elster_deadline</td><td>de</td><td>https://example.com/de/elster-frist</td><td>table</td><td>0.75</td></tr><tr><td>cnt_elster_deadline</td><td>en</td><td>https://example.com/en/filing-deadline</td><td>table</td><td>—</td></tr><tr><td>cnt_home_office</td><td>de</td><td>https://example.com/de/homeoffice</td><td>table</td><td>0.05</td></tr><tr><td>cnt_home_office</td><td>en</td><td>https://example.com/en/home-office</td><td>table</td><td>0.0</td></tr><tr><td>cnt_church_tax</td><td>de</td><td>https://example.com/de/kirchensteuer</td><td>table</td><td>—</td></tr><tr><td>cnt_moving_costs</td><td>en</td><td>https://example.com/en/moving-costs</td><td>table</td><td>0.4</td></tr><tr><td>cnt_werbungskosten</td><td>de</td><td>https://example.com/de/werbungskosten</td><td>lab only</td><td>—</td></tr><tr><td>cnt_moving_costs</td><td>de</td><td>https://example.com/de/umzugskosten</td><td>lab only</td><td>—</td></tr>
+      <tr><td>cnt_file_taxes_berlin</td><td>de</td><td>https://example.com/de/steuern-berlin</td><td>table</td><td>0.5</td></tr><tr><td>cnt_file_taxes_berlin</td><td>en</td><td>https://example.com/en/taxes-berlin</td><td>table</td><td>—</td></tr><tr><td>cnt_elster_deadline</td><td>de</td><td>https://example.com/de/elster-frist</td><td>table</td><td>0.75</td></tr><tr><td>cnt_elster_deadline</td><td>en</td><td>https://example.com/en/filing-deadline</td><td>table</td><td>—</td></tr><tr><td>cnt_home_office</td><td>de</td><td>https://example.com/de/homeoffice</td><td>table</td><td>0.05</td></tr><tr><td>cnt_home_office</td><td>en</td><td>https://example.com/en/home-office</td><td>table</td><td>0.0</td></tr><tr><td>cnt_church_tax</td><td>de</td><td>https://example.com/de/kirchensteuer</td><td>table</td><td>—</td></tr><tr><td>cnt_moving_costs</td><td>en</td><td>https://example.com/en/moving-costs</td><td>table</td><td>0.4</td></tr><tr><td>cnt_commute</td><td>de</td><td>https://example.com/de/pendlerpauschale</td><td>lab only</td><td>1.0</td></tr><tr><td>cnt_special_expenses</td><td>en</td><td>https://example.com/en/special-expenses</td><td>lab only</td><td>—</td></tr><tr><td>cnt_werbungskosten</td><td>de</td><td>https://example.com/de/werbungskosten</td><td>lab only</td><td>—</td></tr><tr><td>cnt_moving_costs</td><td>de</td><td>https://example.com/de/umzugskosten</td><td>lab only</td><td>—</td></tr><tr><td>cnt_file_taxes_berlin</td><td>de</td><td>https://example.com/de/steuern-berlin</td><td>lab only</td><td>0.5</td></tr><tr><td>cnt_allowances</td><td>en</td><td>https://example.com/en/allowances</td><td>lab only</td><td>—</td></tr>
     </tbody>
   </table>
   </body></html>

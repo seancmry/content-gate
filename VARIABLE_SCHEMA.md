@@ -46,7 +46,7 @@
 | Name | Type | Required | Job | If wrong or missing |
 | --- | --- | --- | --- | --- |
 | `PAGES` | list | yes | The eight stored rows | The lab catalog shrinks |
-| `BROKEN` | list | yes | Empty body and a schema mismatch. Not stored | Those two blocks disappear |
+| `BROKEN` | list | yes | Empty body, schema mismatch, a Peec error, and a missing schema. Not stored | Those blocks disappear |
 | `fixtures/peec-urls.json` | file | yes | The saved URL report | Every URL looks absent |
 
 **Headline card:** the catalog is the pages. The fixture is the Peec stand-in. The outcome is `published` or `blocked` plus the reason.

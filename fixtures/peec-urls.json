@@ -53,6 +53,15 @@
       "retrieval_count": 5,
       "citation_rate": 0.4,
       "mentioned_brands": [{ "id": "br_example" }]
+    },
+    {
+      "url": "https://example.com/de/pendlerpauschale",
+      "title": "Pendlerpauschale",
+      "classification": "editorial",
+      "citation_count": 11,
+      "retrieval_count": 11,
+      "citation_rate": 1.0,
+      "mentioned_brands": [{ "id": "br_example" }]
     }
   ]
 }

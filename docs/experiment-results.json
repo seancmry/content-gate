@@ -88,6 +88,28 @@
     "citation_count": 2
   },
   {
+    "content_id": "cnt_commute",
+    "locale": "de",
+    "url": "https://example.com/de/pendlerpauschale",
+    "stored": false,
+    "status": "published",
+    "reason": "url, schema, and Peec agree",
+    "citation_rate": 1.0,
+    "retrieval_count": 11,
+    "citation_count": 11
+  },
+  {
+    "content_id": "cnt_special_expenses",
+    "locale": "en",
+    "url": "https://example.com/en/special-expenses",
+    "stored": false,
+    "status": "blocked",
+    "reason": "url is absent from the Peec report",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  },
+  {
     "content_id": "cnt_werbungskosten",
     "locale": "de",
     "url": "https://example.com/de/werbungskosten",
@@ -102,6 +124,28 @@
     "content_id": "cnt_moving_costs",
     "locale": "de",
     "url": "https://example.com/de/umzugskosten",
+    "stored": false,
+    "status": "blocked",
+    "reason": "json_ld.url does not match the page url",
+    "citation_rate": null,
+    "retrieval_count": null,
+    "citation_count": null
+  },
+  {
+    "content_id": "cnt_file_taxes_berlin",
+    "locale": "de",
+    "url": "https://example.com/de/steuern-berlin",
+    "stored": false,
+    "status": "blocked",
+    "reason": "Peec 503: report unavailable",
+    "citation_rate": 0.5,
+    "retrieval_count": 8,
+    "citation_count": 4
+  },
+  {
+    "content_id": "cnt_allowances",
+    "locale": "en",
+    "url": "https://example.com/en/allowances",
     "stored": false,
     "status": "blocked",
     "reason": "json_ld.url does not match the page url",

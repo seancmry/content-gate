@@ -4,29 +4,36 @@
   <meta charset="utf-8">
   <title>Content gate lab notes</title>
   <style>
-    body { font-family: Georgia, serif; margin: 36px auto; max-width: 860px; color: #1c1c1c; }
-    h1 { font-weight: normal; }
-    h2 { font-weight: normal; margin-top: 28px; }
-    img { width: 100%; border: 1px solid #e4dfd4; }
-    p, li { line-height: 1.45; }
+    @page { margin: 14mm 14mm 16mm; }
+    body { font-family: Georgia, serif; margin: 0 auto; max-width: 860px; color: #292524; }
+    h1 { font-weight: normal; color: #7c2d12; margin: 0 0 8px; }
+    h2 { font-weight: normal; color: #9a3412; margin: 0 0 8px; font-size: 20px; }
+    p, li { line-height: 1.4; }
     code { font-family: ui-monospace, monospace; font-size: 0.92em; }
+    .keep { break-inside: avoid; page-break-inside: avoid; }
+    .results { break-before: page; page-break-before: always; }
+    .notes { break-before: page; page-break-before: always; }
+    img { width: 100%; border: 1px solid #eadfce; }
   </style>
 </head>
 <body>
   <h1>Content gate lab notes</h1>
-  <p>Ten checks against a saved Peec URL report. No live Peec call. Eight rows are in the Supabase <code>pages</code> table. Two broken copies stay in the lab only, because the table requires a body and a matching schema.</p>
-  <h2>Catalog</h2>
-  <img src="images/catalog.png" alt="Catalog of ten page URLs and their citation rates">
-  <h2>Results</h2>
-  <img src="images/results.png" alt="Gate result for each URL">
-  <h2>What the runs showed</h2>
-  <ul>
-    <li>A URL in the report, with a body and a matching schema, publishes. That includes a rate of 0.05 and a rate of 0.0. A low rate is not a block.</li>
-    <li><code>/en/taxes-berlin</code> and <code>/de/kirchensteuer</code> are absent from the report, so they block.</li>
-    <li><code>/en/filing-deadline</code> is in the report, but <code>citation_rate</code> is null, so it blocks.</li>
-    <li>An empty body blocks before Peec is consulted.</li>
-    <li>A schema URL that does not match the page URL blocks before Peec is consulted.</li>
-  </ul>
-  <p>Score: 5 published, 5 blocked. Re-run with <code>python experiments.py</code>.</p>
+  <p>Fourteen checks against a saved Peec URL report. No live Peec call. Eight rows are in the Supabase <code>pages</code> table. Six copies stay in the lab only.</p>
+  <section class="keep">
+    <img src="images/catalog.png" alt="Catalog of page URLs and citation rates">
+  </section>
+  <section class="keep results">
+    <img src="images/results.png" alt="Results table, heading included">
+  </section>
+  <section class="notes">
+    <h2>What the runs showed</h2>
+    <ul>
+      <li>A URL in the report, with a body and a matching schema, publishes. That includes rates of 1.0, 0.05, and 0.0. A low rate is not a block.</li>
+      <li>An absent URL blocks. So does a row whose <code>citation_rate</code> is null.</li>
+      <li>An empty body, a schema URL that does not match, and a missing schema all block before Peec is consulted.</li>
+      <li>A Peec error blocks even when that same URL would otherwise publish.</li>
+    </ul>
+    <p>Re-run with <code>python experiments.py</code>.</p>
+  </section>
 </body>
 </html>
