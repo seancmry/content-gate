@@ -4,26 +4,28 @@
   <meta charset="utf-8">
   <title>Content gate lab</title>
   <style>
-    body { font-family: Georgia, serif; margin: 28px auto; max-width: 980px; color: #292524; background: #f6f1e8; }
-    h1 { font-weight: normal; font-size: 28px; margin-bottom: 4px; color: #7c2d12; }
-    h2 { font-weight: normal; font-size: 20px; margin-top: 28px; color: #9a3412; }
+    @font-face { font-family: Geist; src: url("fonts/Geist-Regular.woff2") format("woff2"); font-weight: 400; }
+    @font-face { font-family: Geist; src: url("fonts/Geist-SemiBold.woff2") format("woff2"); font-weight: 600; }
+    body { font-family: Geist, sans-serif; margin: 28px auto; max-width: 980px; color: #111; background: #fff; }
+    h1 { font-weight: 600; font-size: 28px; margin-bottom: 4px; color: #111; }
+    h2 { font-weight: 600; font-size: 20px; margin-top: 28px; color: #0052ff; }
     p { line-height: 1.45; }
-    table { width: 100%; border-collapse: collapse; background: #fffdf8; }
-    th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid #eadfce; font-size: 14px; }
-    th { background: #9a3412; color: #fff7ed; font-family: sans-serif; font-weight: 600; }
-    .published { color: #0f766e; font-weight: 700; font-family: sans-serif; }
-    .blocked { color: #9f1239; font-weight: 700; font-family: sans-serif; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid #e6e6e6; font-size: 14px; }
+    th { background: #0052ff; color: white; font-weight: 600; }
+    .published { color: #067a3a; font-weight: 600; }
+    .blocked { color: #d01212; font-weight: 600; }
     .tiles { display: flex; gap: 16px; margin: 16px 0 8px; }
-    .tile { background: #fffdf8; padding: 16px 20px; min-width: 140px; border-top: 4px solid #c2410c; }
-    .tile b { display: block; font-family: sans-serif; font-size: 28px; }
+    .tile { background: #f5f8ff; padding: 16px 20px; min-width: 140px; border-top: 4px solid #0052ff; }
+    .tile b { display: block; font-size: 28px; }
   </style>
 </head>
 <body>
-<h2 id="results">Results</h2>
+<h2 id="results">What we decided</h2>
   <table>
-    <thead><tr><th>Locale</th><th>Path</th><th>Status</th><th>Reason</th></tr></thead>
+    <thead><tr><th>Language</th><th>Page</th><th>Decision</th><th>Why</th></tr></thead>
     <tbody>
-      <tr><td>de</td><td>/de/steuern-berlin</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/taxes-berlin</td><td class='blocked'>blocked</td><td>url is absent from the Peec report</td></tr><tr><td>de</td><td>/de/elster-frist</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/filing-deadline</td><td class='blocked'>blocked</td><td>citation_rate is missing</td></tr><tr><td>de</td><td>/de/homeoffice</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/home-office</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>de</td><td>/de/kirchensteuer</td><td class='blocked'>blocked</td><td>url is absent from the Peec report</td></tr><tr><td>en</td><td>/en/moving-costs</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>de</td><td>/de/pendlerpauschale</td><td class='published'>published</td><td>url, schema, and Peec agree</td></tr><tr><td>en</td><td>/en/special-expenses</td><td class='blocked'>blocked</td><td>url is absent from the Peec report</td></tr><tr><td>de</td><td>/de/werbungskosten</td><td class='blocked'>blocked</td><td>body is empty</td></tr><tr><td>de</td><td>/de/umzugskosten</td><td class='blocked'>blocked</td><td>json_ld.url does not match the page url</td></tr><tr><td>de</td><td>/de/steuern-berlin</td><td class='blocked'>blocked</td><td>Peec 503: report unavailable</td></tr><tr><td>en</td><td>/en/allowances</td><td class='blocked'>blocked</td><td>json_ld.url does not match the page url</td></tr>
+      <tr><td>de</td><td>/de/steuern-berlin</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>en</td><td>/en/taxes-berlin</td><td class='blocked'>Held back</td><td>This address is not in the report, so it stays held.</td></tr><tr><td>de</td><td>/de/elster-frist</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>en</td><td>/en/filing-deadline</td><td class='blocked'>Held back</td><td>The report lists the page, but not how often it was named, so it stays held.</td></tr><tr><td>de</td><td>/de/homeoffice</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>en</td><td>/en/home-office</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>de</td><td>/de/kirchensteuer</td><td class='blocked'>Held back</td><td>This address is not in the report, so it stays held.</td></tr><tr><td>en</td><td>/en/moving-costs</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>de</td><td>/de/pendlerpauschale</td><td class='published'>Can go live</td><td>The page and the report match, so it can go live.</td></tr><tr><td>en</td><td>/en/special-expenses</td><td class='blocked'>Held back</td><td>This address is not in the report, so it stays held.</td></tr><tr><td>de</td><td>/de/werbungskosten</td><td class='blocked'>Held back</td><td>The page has no text, so it stays held.</td></tr><tr><td>de</td><td>/de/umzugskosten</td><td class='blocked'>Held back</td><td>The hidden label does not match the address, so it stays held.</td></tr><tr><td>de</td><td>/de/steuern-berlin</td><td class='blocked'>Held back</td><td>The report failed to load, so it stays held.</td></tr><tr><td>en</td><td>/en/allowances</td><td class='blocked'>Held back</td><td>The hidden label does not match the address, so it stays held.</td></tr>
     </tbody>
   </table>
 </body>

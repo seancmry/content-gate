@@ -1,56 +1,56 @@
-# Variable schema
+# What each input does
 
-**System map:** `content/page.json` → Peec URL report or `fixtures/peec-urls.json` → compare on `url` → write `last_peec` → set `status`.
+The check reads a page, finds that page’s address in a report, and marks the page as allowed to go live or held back.
 
-## Headline card
+## In one line
 
-| Knob | Plain English |
+| Name | What you would call it |
 | --- | --- |
-| **`content_id`** | The page’s name inside this repo. |
-| **`url`** | The public address Peec uses to point at the page. |
-| **`locale`** | `de` or `en` of that same page. |
-| **`PEEC_API_KEY`** | Peec password for `--live` only. |
-| **`SUPABASE_URL`** | Address of the free Supabase project. |
-| **`SUPABASE_SECRET_KEY`** | Password for that project. Server-side only. |
-| **gate** | The rule that blocks publish when they disagree. |
+| **Page name** | The short name of the article. |
+| **Address** | The public link. This is how the page and the report are matched. |
+| **Language** | German or English. |
+| **Peec key** | The password for a live report. Only needed for a real call. Stays in `.env`. |
+| **Database address** | Where the free Supabase project lives. |
+| **Database password** | Lets a script write rows. Never put this in the repo or in chat. |
+| **The check** | Holds the page back when the page and the report do not agree. |
 
-## Inputs
+## Knobs
 
-| Name | Type | Required | Job | If wrong or missing |
+| Name | Type | Required | What it does | If it is wrong or missing |
 | --- | --- | --- | --- | --- |
-| `--locale` | `de` \| `en` | no (default `de`) | Which language row to check | Unknown locale exits |
-| `--live` | flag | no | Call Peec instead of the fixture | Without a key, the page is blocked and the error is stored |
-| `PEEC_API_KEY` | string | live only | `X-API-Key` header | Live call does not run |
-| `PEEC_PROJECT_ID` | string | company-scoped keys | Sent as `project_id` | Wrong project, or Peec rejects the call |
-| `SUPABASE_URL` | string | when using Supabase | Where the page rows live | Script cannot reach the project |
-| `SUPABASE_SECRET_KEY` | string | when using Supabase | Lets the script write rows. `sb_secret_…` | A publishable key is rejected |
-| `content/page.json` | file | yes | The page. System of record | Nothing to check |
-| `fixtures/peec-urls.json` | file | fixture mode | Saved URL report | Fixture mode cannot run |
+| `--locale` | `de` or `en` | no (default German) | Which language to check | An unknown language stops the script |
+| `--live` | on/off | no | Use a real Peec report instead of the saved sample | With no password, the page is held back and the error is saved |
+| `PEEC_API_KEY` | text | only for a live call | Sent as the Peec password | The live call does not run |
+| `PEEC_PROJECT_ID` | text | only for some keys | Which Peec project to ask | The wrong project, or Peec refuses the call |
+| `SUPABASE_URL` | text | when using the database | Where the rows live | The script cannot reach the project |
+| `SUPABASE_SECRET_KEY` | text | when using the database | Password for writing rows. Starts with `sb_secret_` | The public key is refused |
+| `content/page.json` | file | yes | The page we check | There is nothing to check |
+| `fixtures/peec-urls.json` | file | for the sample | The saved report | The sample check cannot run |
 
-## Page fields
+## Fields on a page
 
-| Name | Type | Required | Job | If wrong or missing |
+| Name | Type | Required | What it does | If it is wrong or missing |
 | --- | --- | --- | --- | --- |
-| `content_id` | string | yes | Stable id across locales | A translation can be mistaken for a new page |
-| `locales.<locale>.url` | string | yes | Join key | Peec row cannot attach |
-| `locales.<locale>.body` | string | yes | Article text | Blocked: body is empty |
-| `locales.<locale>.json_ld.url` | string | yes | Must equal `url` | Blocked: schema does not match |
-| `locales.<locale>.status` | `draft` \| `published` \| `blocked` | yes | Gate result | A failed check can look live |
-| `last_peec.citation_rate` | number | from Peec | Cited ÷ retrieved | Missing rate blocks |
-| `last_peec.checked_at` | timestamp | written by the script | When the snapshot was taken | Empty if Peec had no row |
+| `content_id` | text | yes | Same name for both languages of one article | A translation can look like a new page |
+| `locales.<locale>.url` | text | yes | The address we match on | The report row cannot attach |
+| `locales.<locale>.body` | text | yes | The words on the page | Held back: the page has no text |
+| `locales.<locale>.json_ld.url` | text | yes | The hidden label. Must equal the address | Held back: the label does not match |
+| `locales.<locale>.status` | draft, published, or blocked | yes | The decision | A failed check can look as if it went live |
+| `last_peec.citation_rate` | number | from the report | How often the page was named, divided by how often it was found | A missing number holds the page back |
+| `last_peec.checked_at` | time | written by the script | When we looked | Empty if the report had no row for this address |
 
-## Experiments
+## The demo script
 
-`python experiments.py` checks a fixed catalog against the fixture. It does not call Peec and does not change `content/page.json`.
+`python experiments.py` checks a fixed set of pages against the saved report. It does not call Peec and does not change `content/page.json`.
 
-| Name | Type | Required | Job | If wrong or missing |
+| Name | Type | Required | What it does | If it is wrong or missing |
 | --- | --- | --- | --- | --- |
-| `PAGES` | list | yes | The eight stored rows | The lab catalog shrinks |
-| `BROKEN` | list | yes | Empty body, schema mismatch, a Peec error, and a missing schema. Not stored | Those blocks disappear |
-| `fixtures/peec-urls.json` | file | yes | The saved URL report | Every URL looks absent |
+| `PAGES` | list | yes | The pages, including the eight stored in the database | The list of pages gets shorter |
+| `BROKEN` | list | yes | Empty text, a bad hidden label, a failed report, and a missing label. Not stored | Those held-back examples disappear |
+| `fixtures/peec-urls.json` | file | yes | The saved report | Every address looks missing |
 
-**Headline card:** the catalog is the pages. The fixture is the Peec stand-in. The outcome is `published` or `blocked` plus the reason.
+The pages go in. The saved report stands in for Peec. Each page comes out as “can go live” or “held back”, with a reason.
 
-## Peec row we keep
+## What we keep from a report row
 
-`retrieval_count`, `citation_count`, `citation_rate`, `mentioned_brands`, plus our `checked_at`.
+How often the page was found, how often it was named, the rate of those two, which brands were mentioned, and the time we checked.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Publish gate: one page, one URL, a Peec check written back onto that page.
+"""Decide whether one page can go live.
 
-Fixture mode needs no key. Live mode calls Peec's URL report.
+The saved sample needs no password. A live run calls Peec's report of page addresses.
 """
 
 from __future__ import annotations

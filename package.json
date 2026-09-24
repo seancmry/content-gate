@@ -4,5 +4,8 @@
   "type": "module",
   "scripts": {
     "keys": "node scripts/keys.mjs"
+  },
+  "devDependencies": {
+    "geist": "^1.7.2"
   }
 }

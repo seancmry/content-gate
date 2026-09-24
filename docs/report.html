@@ -2,38 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Content gate lab notes</title>
+  <title>Content gate — a short note</title>
   <style>
+    @font-face { font-family: Geist; src: url("fonts/Geist-Regular.woff2") format("woff2"); font-weight: 400; }
+    @font-face { font-family: Geist; src: url("fonts/Geist-SemiBold.woff2") format("woff2"); font-weight: 600; }
     @page { margin: 14mm 14mm 16mm; }
-    body { font-family: Georgia, serif; margin: 0 auto; max-width: 860px; color: #292524; }
-    h1 { font-weight: normal; color: #7c2d12; margin: 0 0 8px; }
-    h2 { font-weight: normal; color: #9a3412; margin: 0 0 8px; font-size: 20px; }
-    p, li { line-height: 1.4; }
+    body { font-family: Geist, sans-serif; margin: 0 auto; max-width: 860px; color: #111; }
+    h1 { font-weight: 600; color: #111; margin: 0 0 8px; font-size: 28px; }
+    h2 { font-weight: 600; color: #0052ff; margin: 0 0 8px; font-size: 20px; }
+    p, li { line-height: 1.45; }
     code { font-family: ui-monospace, monospace; font-size: 0.92em; }
     .keep { break-inside: avoid; page-break-inside: avoid; }
     .results { break-before: page; page-break-before: always; }
     .notes { break-before: page; page-break-before: always; }
-    img { width: 100%; border: 1px solid #eadfce; }
+    img { width: 100%; border: 1px solid #e6e6e6; }
   </style>
 </head>
 <body>
-  <h1>Content gate lab notes</h1>
-  <p>Fourteen checks against a saved Peec URL report. No live Peec call. Eight rows are in the Supabase <code>pages</code> table. Six copies stay in the lab only.</p>
+  <h1>Can this page go live?</h1>
+  <p>We checked fourteen pages against a saved sample report. Nothing here calls Peec. Eight pages are stored in the database. Six examples exist only in this demo.</p>
+  <p>A page can go live when its address is in the report, the page has text, and a hidden label repeats that same address. How often the page was named can be low, even zero. A missing score holds it back.</p>
   <section class="keep">
-    <img src="images/catalog.png" alt="Catalog of page URLs and citation rates">
+    <img src="images/catalog.png" alt="The pages we checked">
   </section>
   <section class="keep results">
-    <img src="images/results.png" alt="Results table, heading included">
+    <img src="images/results.png" alt="What the check decided">
   </section>
   <section class="notes">
-    <h2>What the runs showed</h2>
+    <h2>What we learned</h2>
     <ul>
-      <li>A URL in the report, with a body and a matching schema, publishes. That includes rates of 1.0, 0.05, and 0.0. A low rate is not a block.</li>
-      <li>An absent URL blocks. So does a row whose <code>citation_rate</code> is null.</li>
-      <li>An empty body, a schema URL that does not match, and a missing schema all block before Peec is consulted.</li>
-      <li>A Peec error blocks even when that same URL would otherwise publish.</li>
+      <li>If the address, the text, and the hidden label agree with the report, the page can go live. That is still true when it was named every time, rarely, or not at all.</li>
+      <li>If the address is missing from the report, the page stays held. The same happens when the report lists the page but does not say how often it was named.</li>
+      <li>Empty text, a hidden label that points somewhere else, and a missing label all hold the page back before the report is even used.</li>
+      <li>If the report fails to load, the page stays held, even when that same address would otherwise go live.</li>
     </ul>
-    <p>Re-run with <code>python experiments.py</code>.</p>
+    <p>Run it again with <code>python experiments.py</code>.</p>
   </section>
 </body>
 </html>

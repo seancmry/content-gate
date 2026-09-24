@@ -153,6 +153,18 @@ def run_cases() -> list[dict]:
     return results
 
 
+def plain_reason(reason: str) -> str:
+    known = {
+        "url, schema, and Peec agree": "The page and the report match, so it can go live.",
+        "url is absent from the Peec report": "This address is not in the report, so it stays held.",
+        "citation_rate is missing": "The report lists the page, but not how often it was named, so it stays held.",
+        "body is empty": "The page has no text, so it stays held.",
+        "json_ld.url does not match the page url": "The hidden label does not match the address, so it stays held.",
+        "Peec 503: report unavailable": "The report failed to load, so it stays held.",
+    }
+    return known.get(reason, reason)
+
+
 def write_html(results: list[dict]) -> None:
     def cell(value: object) -> str:
         text = "—" if value is None else str(value)
@@ -162,13 +174,13 @@ def write_html(results: list[dict]) -> None:
     result_rows = []
     for item in results:
         badge = "published" if item["status"] == "published" else "blocked"
-        where = "table" if item["stored"] else "lab only"
+        decision = "Can go live" if item["status"] == "published" else "Held back"
         catalog_rows.append(
             "<tr>"
             f"<td>{cell(item['content_id'])}</td>"
             f"<td>{cell(item['locale'])}</td>"
             f"<td>{cell(item['url'])}</td>"
-            f"<td>{cell(where)}</td>"
+            f"<td>{cell('In the database' if item['stored'] else 'Demo only')}</td>"
             f"<td>{cell(item['citation_rate'])}</td>"
             "</tr>"
         )
@@ -176,8 +188,8 @@ def write_html(results: list[dict]) -> None:
             "<tr>"
             f"<td>{cell(item['locale'])}</td>"
             f"<td>{cell(item['url'].removeprefix('https://example.com'))}</td>"
-            f"<td class='{badge}'>{cell(item['status'])}</td>"
-            f"<td>{cell(item['reason'])}</td>"
+            f"<td class='{badge}'>{cell(decision)}</td>"
+            f"<td>{cell(plain_reason(item['reason']))}</td>"
             "</tr>"
         )
     published = sum(1 for item in results if item["status"] == "published")
@@ -188,37 +200,39 @@ def write_html(results: list[dict]) -> None:
   <meta charset="utf-8">
   <title>Content gate lab</title>
   <style>
-    body {{ font-family: Georgia, serif; margin: 28px auto; max-width: 980px; color: #292524; background: #f6f1e8; }}
-    h1 {{ font-weight: normal; font-size: 28px; margin-bottom: 4px; color: #7c2d12; }}
-    h2 {{ font-weight: normal; font-size: 20px; margin-top: 28px; color: #9a3412; }}
+    @font-face {{ font-family: Geist; src: url("fonts/Geist-Regular.woff2") format("woff2"); font-weight: 400; }}
+    @font-face {{ font-family: Geist; src: url("fonts/Geist-SemiBold.woff2") format("woff2"); font-weight: 600; }}
+    body {{ font-family: Geist, sans-serif; margin: 28px auto; max-width: 980px; color: #111; background: #fff; }}
+    h1 {{ font-weight: 600; font-size: 28px; margin-bottom: 4px; color: #111; }}
+    h2 {{ font-weight: 600; font-size: 20px; margin-top: 28px; color: #0052ff; }}
     p {{ line-height: 1.45; }}
-    table {{ width: 100%; border-collapse: collapse; background: #fffdf8; }}
-    th, td {{ text-align: left; padding: 7px 10px; border-bottom: 1px solid #eadfce; font-size: 14px; }}
-    th {{ background: #9a3412; color: #fff7ed; font-family: sans-serif; font-weight: 600; }}
-    .published {{ color: #0f766e; font-weight: 700; font-family: sans-serif; }}
-    .blocked {{ color: #9f1239; font-weight: 700; font-family: sans-serif; }}
+    table {{ width: 100%; border-collapse: collapse; background: #fff; }}
+    th, td {{ text-align: left; padding: 7px 10px; border-bottom: 1px solid #e6e6e6; font-size: 14px; }}
+    th {{ background: #0052ff; color: white; font-weight: 600; }}
+    .published {{ color: #067a3a; font-weight: 600; }}
+    .blocked {{ color: #d01212; font-weight: 600; }}
     .tiles {{ display: flex; gap: 16px; margin: 16px 0 8px; }}
-    .tile {{ background: #fffdf8; padding: 16px 20px; min-width: 140px; border-top: 4px solid #c2410c; }}
-    .tile b {{ display: block; font-family: sans-serif; font-size: 28px; }}
+    .tile {{ background: #f5f8ff; padding: 16px 20px; min-width: 140px; border-top: 4px solid #0052ff; }}
+    .tile b {{ display: block; font-size: 28px; }}
   </style>
 </head>
 <body>
-  <h1>Content gate lab</h1>
-  <p>{len(results)} checks against the saved Peec URL report. {sum(1 for item in results if item['stored'])} rows live in the Supabase <code>pages</code> table. The rest exist only here.</p>
+  <h1>Can this page go live?</h1>
+  <p>We checked {len(results)} pages against a saved sample report. {sum(1 for item in results if item['stored'])} of them are stored in the database. The rest are examples we only use in this demo.</p>
   <div class="tiles">
-    <div class="tile"><b>{published}</b>published</div>
-    <div class="tile"><b>{blocked}</b>blocked</div>
+    <div class="tile"><b>{published}</b>can go live</div>
+    <div class="tile"><b>{blocked}</b>held back</div>
   </div>
-  <h2 id="catalog">Catalog</h2>
+  <h2 id="catalog">The pages</h2>
   <table>
-    <thead><tr><th>Page</th><th>Locale</th><th>URL</th><th>Where</th><th>Citation rate</th></tr></thead>
+    <thead><tr><th>Page</th><th>Language</th><th>Address</th><th>Saved where</th><th>How often named</th></tr></thead>
     <tbody>
       {''.join(catalog_rows)}
     </tbody>
   </table>
-  <h2 id="results">Results</h2>
+  <h2 id="results">What we decided</h2>
   <table>
-    <thead><tr><th>Locale</th><th>Path</th><th>Status</th><th>Reason</th></tr></thead>
+    <thead><tr><th>Language</th><th>Page</th><th>Decision</th><th>Why</th></tr></thead>
     <tbody>
       {''.join(result_rows)}
     </tbody>

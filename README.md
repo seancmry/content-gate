@@ -1,24 +1,28 @@
 # Content gate
 
-One article, two languages, one public URL per language. A check against Peec is written back onto that article. The page publishes only when the URL, the schema, and Peec agree.
+This is a small check that decides whether a page is allowed to go live.
 
-Not a CMS. A JSON file stands in for one. Peec is the second system.
+A page has an address. A report says which addresses were named by answer engines. The page goes live only when three things agree: the address, a hidden label on the page, and the report.
 
-## Headline card
+The page lives in a file for this demo. The report is a saved sample, so you do not need an account to try it. Peec is the product that would supply a live report. Supabase is the database that can store the pages.
 
-| Knob | Plain English |
+## What the words mean
+
+| Word in the files | What it means |
 | --- | --- |
-| **`content_id`** | The page’s name inside this repo. |
-| **`url`** | The public address. Peec and the page join on this. |
-| **`locale`** | `de` or `en` of that same page. |
-| **`PEEC_API_KEY`** | Peec password. Only for `--live`. Stays in `.env`. |
-| **gate** | Refuses to publish when the page and Peec disagree. |
+| **Page name** | The short name we use for one article. |
+| **Address** | The public link. The page and the report are matched on this. |
+| **Language** | German (`de`) or English (`en`) of that same article. |
+| **How often named** | Of the times the page was found, how often it was actually named. A low number does not stop the page. A missing number does. |
+| **Hidden label** | A small note on the page that must repeat the same address. |
+| **Can go live** | The page and the report match. |
+| **Held back** | Something does not match, so the page stays unpublished. |
 
-**System map:** `content/page.json` → Peec URL report or `fixtures/peec-urls.json` → compare on `url` → write `last_peec` onto the locale → `published` or `blocked`.
+The check reads the page, looks it up in the report, and writes the decision back onto the page.
 
-Full field list: `VARIABLE_SCHEMA.md`.
+The full field list is in `VARIABLE_SCHEMA.md`.
 
-## Run
+## Try the one-page check
 
 ```bash
 python3 -m venv .venv
@@ -28,40 +32,38 @@ python gate.py --locale de
 python gate.py --locale en
 ```
 
-`de` is in the fixture, so it publishes. `en` is not, so it blocks. Both results are written into `content/page.json`.
+German is in the sample report, so that page can go live. English is not in the report, so it is held back. Both decisions are written into `content/page.json`.
 
-Live Peec, after you copy `.env.example` to `.env` and add a key:
+A live Peec report needs a key in `.env`. Copy `.env.example` to `.env` first.
 
 ```bash
 python gate.py --locale de --live
 ```
 
-A company-scoped key also needs `PEEC_PROJECT_ID` (`or_…`). A project-scoped key does not. Docs: https://docs.peec.ai/api-reference/reports/get-urls-report
+Some keys also need a project id. A key that already belongs to one project does not. Docs: https://docs.peec.ai/api-reference/reports/get-urls-report
 
-## Save the Supabase URL and key
+## Save the database address and password
 
-From this folder, after the project exists:
+After the Supabase project exists, from this folder:
 
 ```bash
 npm run keys
 ```
 
-It asks for the project URL, then the secret key. The key is masked. Both lines are written into `.env`. Do not paste the secret into chat.
+It asks for the project address, then the secret password. The password is hidden as you type. Both are saved in `.env`, which is not uploaded to GitHub. Do not paste the password into chat.
 
-## Lab
+## The demo
 
-`python experiments.py` checks fourteen URLs against `fixtures/peec-urls.json`. It does not call Peec and does not change `content/page.json`.
+`python experiments.py` checks fourteen pages against the saved sample report. It does not call Peec, and it does not change `content/page.json`.
 
-Six publish. Eight block. A low citation rate still publishes. A missing rate, an absent URL, an empty body, a schema mismatch, or a Peec error blocks.
+Six can go live. Eight are held back. A low “how often named” score still lets a page go live. A missing score, a missing address, empty text, a mismatched hidden label, or a failed report holds the page back.
 
-![Catalog](docs/images/catalog.png)
+![The pages we checked](docs/images/catalog.png)
 
-![Results](docs/images/results.png)
+![What the check decided](docs/images/results.png)
 
-Notes with the same shots: [docs/content-gate-lab.pdf](docs/content-gate-lab.pdf).
+The same pictures, with a short note, are in [docs/content-gate-lab.pdf](docs/content-gate-lab.pdf).
 
-## Supabase
+## The database
 
-The eight real rows live in a `pages` table on a free project in Frankfurt. The gate still compares on `url`. Supabase stores the page. It does not produce the citation numbers. Those still come from the fixture, or from a Peec key if one exists later.
-
-`npm run keys` writes `SUPABASE_URL` and `SUPABASE_SECRET_KEY` into `.env`. The secret is not committed.
+Eight of the pages are stored in a `pages` table on a free Supabase project in Frankfurt. The database keeps the pages. It does not create the report. The numbers still come from the saved sample, or from a Peec key if one exists later.
