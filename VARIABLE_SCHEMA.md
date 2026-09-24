@@ -51,6 +51,16 @@ The check reads a page, finds that page’s address in a report, and marks the p
 
 The pages go in. The saved report stands in for Peec. Each page comes out as “can go live” or “held back”, with a reason.
 
+## The database function
+
+`apply_check` is the same rule, stored next to the rows. It is not an Edge Function. It does not call Peec.
+
+| Name | Type | Required | What it does | If it is wrong or missing |
+| --- | --- | --- | --- | --- |
+| `p_content_id` | text | yes | Which page | The function stops: no such page |
+| `p_locale` | text | yes | Which language of that page | The function stops: no such page |
+| `report_rows` | table | yes | The saved report, one row per address | Every address looks missing, so every page stays held |
+
 ## What we keep from a report row
 
 How often the page was found, how often it was named, the rate of those two, which brands were mentioned, and the time we checked.
