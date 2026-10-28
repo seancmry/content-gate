@@ -1,30 +1,14 @@
 # Content gate
 
-## The problem
+A page goes live only when three things agree: its public address, a hidden label on the page that repeats that address, and a row for that address in a naming report. The report comes from Peec, or from a saved sample when you run this offline. The page itself cannot tell you whether an answer engine named it. The check writes the decision back onto the page: **can go live**, or **held back**, with the reason.
 
-Publishing a page is often a gut feel: someone hits “go live” without a clear check.
+This repo is the rule, and the optional database that stores it. The runner that fetches a page, decides, and appends an audit log is [publish-loop](https://github.com/seancmry/publish-loop).
 
-A page can show its own address and text. It **cannot** tell you whether an answer engine actually named that address. If you only trust the page, you can publish something that never showed up in the naming report — or block something for the wrong reason.
-
-**What this program does:** it runs a small check. A page goes live only when three things agree:
-
-1. the page’s public address  
-2. a hidden label on the page that repeats that address  
-3. a naming report (from Peec, or a saved sample for offline demos)
-
-The decision is written back onto the page so anyone can see **can go live** or **held back**, and why.
+Someone publishing a page uses this when "go live" has to be a check. In the sample, the German page is in the report, so it can go live. The English page is not, so it is held.
 
 ![A page goes live only when the address, the hidden label, and the report agree](docs/images/overview.png)
 
-## Who it helps
-
-- Content / SEO / AEO people who want a clear publish rule, not a vibe  
-- Engineers wiring “should this page ship?” into a pipeline or agent  
-- Anyone evaluating Peec-style naming reports next to real page content  
-
-No Peec account is required for the offline lab — a saved sample report is included.
-
-## How to run
+## Run the check
 
 ```bash
 python3 -m venv .venv
@@ -34,21 +18,21 @@ python gate.py --locale de
 python gate.py --locale en
 ```
 
-German is in the sample report → that page can go live. English is not → held back. Both decisions land in `content/page.json`.
+Both decisions land in `content/page.json`.
 
-**Bigger offline demo** (fourteen pages, no API calls):
+**Fourteen pages, no API calls:**
 
 ```bash
 python experiments.py
 ```
 
-Six can go live; eight are held on purpose. Pictures + short note: [docs/content-gate-lab.pdf](docs/content-gate-lab.pdf).
+Six can go live. Eight are held on purpose. Pictures and a short note: [docs/content-gate-lab.pdf](docs/content-gate-lab.pdf).
 
 ![The pages we checked](docs/images/catalog.png)
 
 ![What the check decided](docs/images/results.png)
 
-### Optional: live Peec report
+### Live Peec report
 
 Copy `.env.example` to `.env`, add your Peec key, then:
 
@@ -58,7 +42,7 @@ python gate.py --locale de --live
 
 Docs: https://docs.peec.ai/api-reference/reports/get-urls-report
 
-### Optional: Supabase
+### Supabase
 
 After a Supabase project exists:
 
@@ -66,26 +50,25 @@ After a Supabase project exists:
 npm run keys
 ```
 
-Saves the project address and password into `.env` (not uploaded to GitHub). Do not paste secrets into chat.
+That saves the project address and key into `.env`. The file is not committed.
 
----
+## Inputs
 
-## What the words mean
-
-| Word | What it means |
+| Input | What the check does with it |
 | --- | --- |
-| **Page name** | Short name for one article. |
-| **Address** | Public link — page and report are matched on this. |
-| **Language** | German (`de`) or English (`en`). |
-| **How often named** | Of the times the page was found, how often it was named. A low number does not stop the page. A **missing** number does. |
-| **Hidden label** | Note on the page that must repeat the same address. |
-| **Can go live** | Page and report match. |
-| **Held back** | Something does not match — stays unpublished. |
+| Address | Match key between the page and the report. |
+| Hidden label (`json_ld.url`) | Must equal the address. A mismatch holds the page. |
+| Page text | Empty text holds the page. |
+| How often named | Named divided by found. A low number still allows the page. A missing number holds it. |
+| `--locale` | `de` or `en`. Default is German. An unknown language stops the script. |
+| `--live` | Call Peec. Needs `PEEC_API_KEY` in `.env`. With no key, the page is held and the error is saved. |
+| `fixtures/peec-urls.json` | Saved report for the offline run. |
+| `content/page.json` | The page `gate.py` checks, and where it writes the decision. |
 
-Full field list: `VARIABLE_SCHEMA.md`.
+Field names and the database function are in `VARIABLE_SCHEMA.md`.
 
-## The database (optional deep dive)
+## Database
 
-Eight pages live in a `pages` table on a free Supabase project (Frankfurt). The database stores pages; it does not invent the report. Numbers still come from the saved sample (or a Peec key later).
+Eight pages live in a `pages` table on a free Supabase project (Frankfurt). The database stores pages. It does not invent the report. Numbers still come from the saved sample, or from a Peec key later.
 
-`published` / `blocked` / `block_reason` / `last_peec` are written back onto those rows. Extra `articles` / `checks` views include dummy rows (`saved_where = Dummy`) for easier reading. The SQL function `apply_check` is in `supabase/apply_check.sql`.
+`published`, `blocked`, `block_reason`, and `last_peec` are written back onto those rows. Extra `articles` and `checks` views include dummy rows (`saved_where = Dummy`) so the table is easier to read. The SQL function `apply_check` is in `supabase/apply_check.sql`. It is the same rule, stored next to the rows. It does not call Peec.
